@@ -1,0 +1,124 @@
+<!--Alerts-->
+<div *ngFor="let alert of alerts">
+  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+</div>
+
+<div>
+  <div class="mt-5 mb-5">
+    <h1 class="text-primary text-center">Control de productos y cupones</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+      <div class="col-md-12 row mb-5 buscador mx-auto">
+        <input
+          class="form form-control mb-3"
+          type="number"
+          placeholder="ID"
+          [(ngModel)]="idProducto"
+        />
+        <button class="btn btn-primary" (click)="buscarProducto(modalInfo)">Buscar</button>
+      </div>
+      <h5 class="text-success text-center mb-3">Lista de productos</h5>
+      <table class="table table-striped mx-auto">
+        <thead>
+          <tr>
+            <td>ID</td>
+            <td>NOMBRE</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of listaProductos">
+            <td>{{ producto.id }}</td>
+            <td>{{ producto.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-6">
+      <div class="col-md-12 row mb-5 buscador mx-auto">
+        <input
+          class="form form-control mb-3"
+          type="number"
+          placeholder="ID"
+          [(ngModel)]="idCupon"
+        />
+        <button class="btn btn-primary" (click)="buscarCupon('admin', modalInfo)">Buscar (Admin)</button>
+        <button class="btn btn-primary ml-5" (click)="buscarCupon('customer', modalInfo)">Buscar (Customer)</button>
+        <button class="btn btn-primary ml-5" (click)="mostrarModalNuevoProducto(modalCrearCupon)">Nuevo</button>
+      </div>
+      <h5 class="text-success text-center mb-3">Lista de cupones</h5>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <td>ID</td>
+            <td>NOMBRE</td>
+            <td>DESCRIPCION</td>
+            <td>ID PRODUCTO</td>
+            <td>VALIDO DESDE</td>
+            <td>VALIDO HASTA</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cupon of listaCupones">
+            <td>{{ cupon.id }}</td>
+            <td>{{ cupon.name }}</td>
+            <td>{{ cupon.description }}</td>
+            <td>{{ cupon.product_id }}</td>
+            <td>{{ cupon.valid_since }}</td>
+            <td>{{ cupon.valid_until }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</div>
+
+
+<!--Modal-->
+<ng-template #modalInfo>
+  <div class="modal-header">
+    <div [innerHTML]="titulo"></div>
+    <button type="button" class="close pull-rigth" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" [innerHTML]="mensaje">
+  </div>
+</ng-template>
+
+<!--Modal-->
+<ng-template #modalCrearCupon>
+  <div class="modal-header">
+    <h4>Crear un nuevo cupon</h4>
+    <button type="button" class="close pull-rigth" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col-md-12 row mb-3" >
+      <h5>Nombre:</h5>
+      <input type="text" class="form form-control" [(ngModel)]="nuevoCupon.name" required>
+    </div>
+    <div class="col-md-12 row mb-3" >
+      <h5>Descripción:</h5>
+      <input type="text" class="form form-control" [(ngModel)]="nuevoCupon.description" required>
+    </div>
+    <div class="col-md-12 row mb-3" >
+      <h5>Id de producto:</h5>
+      <input type="number" class="form form-control" [(ngModel)]="nuevoCupon.product_id" required>
+    </div>
+    <div class="col-md-12 row mb-3" >
+      <h5>válido desde:</h5>
+      <input type="datetime-local" class="form form-control" [(ngModel)]="nuevoCupon.valid_since" required>
+    </div>
+    <div class="col-md-12 row mb-3" >
+      <h5>Válido hasta:</h5>
+      <input type="datetime-local" class="form form-control" [(ngModel)]="nuevoCupon.valid_until" required>
+    </div>
+    <div class="col-md-12 row mb-3" >
+      <button class="btn btn-primary" (click)="agregarCupon()">Enviar</button>
+    </div>
+  </div>
+</ng-template>
