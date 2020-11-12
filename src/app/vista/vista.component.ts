@@ -156,6 +156,9 @@ export class VistaComponent implements OnInit {
     }
   }
 
+  /**
+   * Agrega un nuevo cupon
+   */
   async agregarCupon() {
     var aux, status;
     await axios
